@@ -14,9 +14,13 @@ export const getProducts = cache(async (): Promise<Product[]> => {
   try {
     const { google } = await import("googleapis");
 
+    const rawKey = SA_KEY
+      .replace(/^["']|["']$/g, "")   // quita comillas si quedaron al pegar en Vercel
+      .replace(/\\n/g, "\n");         // convierte \n literal a salto de línea real
+
     const auth = new google.auth.JWT({
       email: SA_EMAIL,
-      key: SA_KEY.replace(/\\n/g, "\n"),
+      key: rawKey,
       scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
 
