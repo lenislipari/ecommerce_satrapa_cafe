@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Coffee } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useInView } from "@/hooks/useInView";
 import { cn, formatPrice, formatCategoria } from "@/lib/utils";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 
 type ProductCardProps = {
   product: Product;
@@ -20,13 +22,16 @@ const CARD_ACCENTS = [
 export function ProductCard({ product }: ProductCardProps) {
   const { ref, isInView } = useInView();
 
-  // Rotación determinística por id del producto para variedad visual mientras no hay fotos
   const accentIndex =
     product.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % CARD_ACCENTS.length;
   const accent = CARD_ACCENTS[accentIndex];
 
   const outOfStock = product.stock === 0;
   const lowStock = product.stock > 0 && product.stock < 5;
+
+  const imgUrl = product.imagenPrincipal
+    ? cloudinaryUrl(product.imagenPrincipal, { width: 600, height: 750, crop: "fill" })
+    : null;
 
   return (
     <motion.article
@@ -47,34 +52,45 @@ export function ProductCard({ product }: ProductCardProps) {
         className="flex flex-col h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-orange)] focus-visible:ring-offset-2 rounded-[var(--radius-lg)]"
         aria-label={`Ver detalle de ${product.nombre}`}
       >
-        {/* Placeholder tipográfico mientras no hay foto real de Cloudinary */}
         <div
           className={cn(
-            "relative aspect-[4/5] overflow-hidden flex items-end p-6",
-            accent.bg,
-            accent.fg,
+            "relative aspect-[4/5] overflow-hidden",
+            !imgUrl && cn("flex items-end p-6", accent.bg, accent.fg),
             "transition-transform duration-500 ease-out group-hover:scale-[1.02]",
           )}
         >
-          <Coffee
-            className="absolute top-6 right-6 w-10 h-10 opacity-40"
-            strokeWidth={1.5}
-            aria-hidden
-          />
-          <h3 className="font-sans font-extrabold text-3xl md:text-4xl leading-none tracking-tight">
-            {product.nombre.split(" ").map((word, i) => (
-              <span key={i} className="block">
-                {word.toUpperCase()}
-              </span>
-            ))}
-          </h3>
+          {imgUrl ? (
+            <Image
+              src={imgUrl}
+              alt={product.nombre}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+            />
+          ) : (
+            <>
+              <Coffee
+                className="absolute top-6 right-6 w-10 h-10 opacity-40"
+                strokeWidth={1.5}
+                aria-hidden
+              />
+              <h3 className="font-sans font-extrabold text-3xl md:text-4xl leading-none tracking-tight">
+                {product.nombre.split(" ").map((word, i) => (
+                  <span key={i} className="block">
+                    {word.toUpperCase()}
+                  </span>
+                ))}
+              </h3>
+            </>
+          )}
 
           {lowStock && (
             <span
               className={cn(
-                "absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-semibold tracking-wide",
-                accent.badge,
-                "text-white",
+                "absolute top-4 left-4 z-10 rounded-full px-3 py-1 text-xs font-semibold tracking-wide",
+                imgUrl
+                  ? "bg-[var(--color-orange)] text-white"
+                  : cn(accent.badge, "text-white"),
               )}
             >
               ¡Quedan pocos!
@@ -82,7 +98,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {outOfStock && (
-            <span className="absolute top-4 left-4 rounded-full bg-neutral-900/80 px-3 py-1 text-xs font-semibold tracking-wide text-white">
+            <span className="absolute top-4 left-4 z-10 rounded-full bg-neutral-900/80 px-3 py-1 text-xs font-semibold tracking-wide text-white">
               Agotado
             </span>
           )}

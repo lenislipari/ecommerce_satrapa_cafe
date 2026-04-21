@@ -6,8 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 import { useCartStore, selectSubtotal } from "@/stores/useCartStore";
 import { CartItem } from "@/components/cart/CartItem";
-import { getWhatsAppLink } from "@/lib/whatsapp";
+import { generatePedidoId, getWhatsAppLink } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/utils";
+import { useState } from "react";
 
 export function CartDrawer() {
   const isOpen = useCartStore((s) => s.isOpen);
@@ -17,11 +18,23 @@ export function CartDrawer() {
   const customer = useCartStore((s) => s.customer);
   const updateCustomer = useCartStore((s) => s.updateCustomer);
   const subtotal = useCartStore(selectSubtotal);
+  const [sending, setSending] = useState(false);
 
-  const handleCheckout = () => {
-    if (items.length === 0) return;
-    const link = getWhatsAppLink(items, customer);
+  const handleCheckout = async () => {
+    if (items.length === 0 || sending) return;
+    setSending(true);
+
+    const pedidoId = generatePedidoId();
+
+    fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pedidoId, items, customer, subtotal }),
+    }).catch(() => {});
+
+    const link = getWhatsAppLink(items, customer, pedidoId);
     window.open(link, "_blank", "noopener,noreferrer");
+    setSending(false);
   };
 
   return (

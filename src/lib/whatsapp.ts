@@ -3,7 +3,7 @@ import { formatPrice } from "@/lib/utils";
 
 const WA_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493515913367";
 
-function generatePedidoId(): string {
+export function generatePedidoId(): string {
   return `SAT-${Date.now().toString(36).toUpperCase()}`;
 }
 
@@ -47,7 +47,7 @@ export function buildWhatsAppMessage(
     .join("\n");
 }
 
-export function getWhatsAppLink(items: CartItem[], customer: CustomerData): string {
-  const msg = buildWhatsAppMessage(items, customer);
+export function getWhatsAppLink(items: CartItem[], customer: CustomerData, pedidoId?: string): string {
+  const msg = buildWhatsAppMessage(items, customer, pedidoId);
   return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(msg)}`;
 }

@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Coffee, Leaf, MapPin } from "lucide-react";
 import { getProducts, getProductBySlug } from "@/lib/sheets";
 import { CoffeePurchasePanel } from "@/components/product/CoffeePurchasePanel";
+import { ProductImageCarousel } from "@/components/product/ProductImageCarousel";
 import { formatPrice, formatCategoria } from "@/lib/utils";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 
 export const revalidate = 300;
 
@@ -22,6 +24,10 @@ export async function generateMetadata({
   const product = await getProductBySlug(slug);
   if (!product) return { title: "Producto no encontrado" };
 
+  const ogImage = product.imagenPrincipal
+    ? cloudinaryUrl(product.imagenPrincipal, { width: 1200, height: 630, crop: "fill" })
+    : undefined;
+
   return {
     title: product.nombre,
     description: product.descripcionCorta,
@@ -29,6 +35,7 @@ export async function generateMetadata({
       title: `${product.nombre} · Sátrapa Café`,
       description: product.descripcionCorta,
       type: "website",
+      ...(ogImage && { images: [{ url: ogImage, width: 1200, height: 630 }] }),
     },
   };
 }
@@ -53,6 +60,31 @@ export default async function ProductPage({
     VISUAL_ACCENTS.length;
   const accent = VISUAL_ACCENTS[accentIndex];
 
+  const buildUrl = (pubId: string) =>
+    cloudinaryUrl(pubId, { width: 900, height: 1125, crop: "fill" });
+
+  const carouselImages = [
+    product.imagenPrincipal ? buildUrl(product.imagenPrincipal) : null,
+    ...product.imagenesExtra.map(buildUrl),
+  ].filter((u): u is string => Boolean(u));
+
+  const fallback = (
+    <>
+      <Coffee
+        className="absolute top-8 right-8 w-14 h-14 opacity-40"
+        strokeWidth={1.5}
+        aria-hidden
+      />
+      <h2 className="font-sans font-extrabold text-5xl md:text-7xl leading-[0.9] tracking-tight">
+        {product.nombre.split(" ").map((word, i) => (
+          <span key={i} className="block">
+            {word.toUpperCase()}
+          </span>
+        ))}
+      </h2>
+    </>
+  );
+
   return (
     <article className="mx-auto max-w-6xl px-5 py-10 md:py-16">
       <Link
@@ -64,23 +96,12 @@ export default async function ProductPage({
       </Link>
 
       <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 items-start">
-        {/* Visual del producto (placeholder tipográfico) */}
-        <div
-          className={`relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl)] p-8 flex items-end shadow-[var(--shadow-warm-md)] ${accent}`}
-        >
-          <Coffee
-            className="absolute top-8 right-8 w-14 h-14 opacity-40"
-            strokeWidth={1.5}
-            aria-hidden
-          />
-          <h2 className="font-sans font-extrabold text-5xl md:text-7xl leading-[0.9] tracking-tight">
-            {product.nombre.split(" ").map((word, i) => (
-              <span key={i} className="block">
-                {word.toUpperCase()}
-              </span>
-            ))}
-          </h2>
-        </div>
+        <ProductImageCarousel
+          images={carouselImages}
+          alt={product.nombre}
+          accent={accent}
+          fallback={fallback}
+        />
 
         {/* Info + CTA */}
         <div className="flex flex-col gap-6">
