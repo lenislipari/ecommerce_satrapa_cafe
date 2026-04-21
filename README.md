@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sátrapa Café – Tienda Online
 
-## Getting Started
+Un ecommerce minimalista de especialidad construido con Next.js, Tailwind CSS y Google Sheets.
 
-First, run the development server:
+## Características
+
+- 📱 **Responsivo**: Diseño mobile-first optimizado
+- ☕ **Catálogo dinámico**: Productos desde Google Sheets en tiempo real
+- 🛒 **Carrito persistente**: Compras guardadas en localStorage
+- 💬 **Checkout WhatsApp**: Pedidos enviados directamente a WhatsApp
+- 📊 **Stock automático**: Google Apps Script gestiona el inventario
+- 🔍 **SEO optimizado**: Sitemap dinámico, robots.txt, Open Graph
+- ⚡ **ISR**: Caché inteligente con revalidación de 5 minutos
+- 🎨 **Brand-first**: Diseño basado en manual de marca Sátrapa
+
+## Tecnología
+
+- **Framework**: Next.js 16 (App Router)
+- **Estilos**: Tailwind CSS v4
+- **Estado**: Zustand + localStorage
+- **UI**: Radix UI + Lucide Icons
+- **Animaciones**: Framer Motion
+- **Base de datos**: Google Sheets (via Service Account)
+- **Hosting**: Vercel
+- **Imágenes**: Cloudinary (opcional)
+
+## Inicio rápido
+
+### Requisitos
+
+- Node.js 18+
+- npm o yarn
+
+### Instalación
+
+```bash
+git clone <repo-url>
+cd satrapa-cafe
+npm install
+```
+
+### Variables de entorno
+
+Copia `.env.local.example` a `.env.local` y completa los valores:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Ver [SETUP_GUIDE.md](./SETUP_GUIDE.md) para instrucciones detalladas de configuración.
+
+### Desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estructura del proyecto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Home page
+│   ├── layout.tsx         # Root layout con metadata
+│   ├── globals.css        # Tokens y estilos globales
+│   ├── producto/[slug]/   # Páginas dinámicas de productos
+│   ├── api/revalidate/    # Webhook para revalidar ISR
+│   └── sitemap.ts         # Sitemap dinámico
+├── components/
+│   ├── layout/            # Header, Footer, CartButton
+│   ├── product/           # ProductCard, ProductGrid, Skeleton
+│   ├── cart/              # CartDrawer, CartItem, AddToCartButton
+│   ├── brand/             # Logo
+│   └── toast/             # Toast notifications
+├── stores/                # Zustand stores
+│   ├── useCartStore.ts   # Estado del carrito
+│   └── useToastStore.ts  # Notificaciones
+├── lib/
+│   ├── sheets.ts          # Google Sheets integration
+│   ├── whatsapp.ts        # Checkout links
+│   ├── cloudinary.ts      # Image handling
+│   ├── mock-products.ts   # Fallback products
+│   └── utils.ts           # Utilidades
+├── types/                 # TypeScript types
+└── hooks/                 # Custom hooks
+    └── useInView.ts       # Scroll reveal
+```
 
-## Learn More
+## Configuración de Google Sheets
 
-To learn more about Next.js, take a look at the following resources:
+1. Crea un Sheet con 3 pestañas: `productos`, `categorias`, `pedidos`
+2. Estructura la pestaña `productos` con columnas A–M (ver [SETUP_GUIDE.md](./SETUP_GUIDE.md))
+3. Configura una Service Account en Google Cloud
+4. Comparte el Sheet con el email de la Service Account
+5. Copia el ID, email y private key a `.env.local`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ver [SETUP_GUIDE.md](./SETUP_GUIDE.md) para detalles completos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Google Apps Script
 
-## Deploy on Vercel
+El archivo [scripts/apps-script/stock-manager.gs](./scripts/apps-script/stock-manager.gs) automatiza:
+- Decrementar stock cuando se confirma un pedido
+- Llamar al webhook `/api/revalidate` para actualizar el sitio inmediatamente
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Instalación:
+1. Abre tu Sheet
+2. Ve a **Extensiones** → **Apps Script**
+3. Copia el contenido de `stock-manager.gs`
+4. Configura los **Script Properties** con `REVALIDATE_URL` y `REVALIDATE_SECRET`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+### Vercel
+
+```bash
+npm run build
+vercel deploy
+```
+
+Configura las variables de entorno en Vercel Dashboard y conecta tu repositorio de GitHub para CI/CD automático.
+
+Ver [SETUP_GUIDE.md](./SETUP_GUIDE.md) sección 8 para instrucciones completas.
+
+## Paleta de colores
+
+- **Café**: `#532016` (primary)
+- **Naranja**: `#FF512C` (accent)
+- **Crema**: `#EDDDCF` (light background)
+
+## Notas de desarrollo
+
+- Los productos son cachés mediante ISR con validación cada 5 minutos
+- Si no hay credenciales de Google Sheets, se usan los productos mock
+- El carrito persiste en localStorage (solo lado cliente)
+- Las animaciones usan Framer Motion con `AnimatePresence`
+- Los tipos TypeScript están tipados estrictamente
+
+## Soporte
+
+Ver [SETUP_GUIDE.md](./SETUP_GUIDE.md) sección 10 para troubleshooting común.

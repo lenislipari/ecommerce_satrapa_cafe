@@ -1,0 +1,42 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#EDDDCF"/>
+
+  <!-- Accent blob -->
+  <circle cx="1000" cy="200" r="300" fill="#FF512C" opacity="0.1"/>
+
+  <!-- Main content area -->
+  <rect x="60" y="80" width="1080" height="470" rx="20" fill="white" opacity="0.6"/>
+
+  <!-- Coffee icon (simple cup shape) -->
+  <g transform="translate(950, 150)">
+    <path d="M10 40 L10 10 Q10 5 15 5 L85 5 Q90 5 90 10 L90 40 Q90 50 80 50 L20 50 Q10 50 10 40 Z" fill="#532016" opacity="0.8"/>
+    <path d="M95 20 Q110 25 110 35 Q110 45 95 45" stroke="#532016" stroke-width="3" fill="none" opacity="0.8"/>
+    <circle cx="35" cy="25" r="3" fill="#FF512C" opacity="0.6"/>
+    <circle cx="50" cy="30" r="2.5" fill="#FF512C" opacity="0.6"/>
+    <circle cx="65" cy="25" r="3" fill="#FF512C" opacity="0.6"/>
+  </g>
+
+  <!-- Main heading -->
+  <text x="600" y="250" font-family="Georgia, serif" font-size="72" font-weight="bold" text-anchor="middle" fill="#532016">
+    Sátrapa Café
+  </text>
+
+  <!-- Subheading -->
+  <text x="600" y="320" font-family="Georgia, serif" font-size="36" font-style="italic" text-anchor="middle" fill="#FF512C">
+    Celebrar lo cotidiano
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="380" font-family="Georgia, serif" font-size="20" text-anchor="middle" fill="#532016" opacity="0.8">
+    Café de especialidad · Sierras Chicas
+  </text>
+
+  <!-- Decorative line -->
+  <line x1="250" y1="420" x2="950" y2="420" stroke="#FF512C" stroke-width="2" opacity="0.5"/>
+
+  <!-- Footer text -->
+  <text x="600" y="480" font-family="Georgia, serif" font-size="18" text-anchor="middle" fill="#532016" opacity="0.7">
+    Un refugio para los pequeños momentos que hacen la vida más linda
+  </text>
+</svg>
