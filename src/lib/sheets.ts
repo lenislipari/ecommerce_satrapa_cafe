@@ -3,11 +3,41 @@ import type { Product } from "@/types/product";
 import { MOCK_PRODUCTS } from "@/lib/mock-products";
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
+const SA_JSON = process.env.GOOGLE_SA_JSON;
 const SA_EMAIL = process.env.GOOGLE_SA_EMAIL;
 const SA_KEY = process.env.GOOGLE_SA_KEY;
 
+type Credentials = { client_email: string; private_key: string };
+
+function getCredentials(): Credentials | null {
+  if (SA_JSON) {
+    try {
+      const raw = SA_JSON.trim();
+      const json = raw.startsWith("{")
+        ? raw
+        : Buffer.from(raw, "base64").toString("utf-8");
+      const parsed = JSON.parse(json);
+      if (parsed.client_email && parsed.private_key) {
+        return {
+          client_email: parsed.client_email,
+          private_key: parsed.private_key.replace(/\\n/g, "\n"),
+        };
+      }
+    } catch (err) {
+      console.error("[sheets] Error parsing GOOGLE_SA_JSON:", err);
+    }
+  }
+
+  if (SA_EMAIL && SA_KEY) {
+    return { client_email: SA_EMAIL, private_key: parsePrivateKey(SA_KEY) };
+  }
+
+  return null;
+}
+
 export const getProducts = cache(async (): Promise<Product[]> => {
-  if (!SHEET_ID || !SA_EMAIL || !SA_KEY) {
+  const credentials = getCredentials();
+  if (!SHEET_ID || !credentials) {
     return MOCK_PRODUCTS.filter((p) => p.activo);
   }
 
@@ -15,8 +45,8 @@ export const getProducts = cache(async (): Promise<Product[]> => {
     const { google } = await import("googleapis");
 
     const auth = new google.auth.JWT({
-      email: SA_EMAIL,
-      key: parsePrivateKey(SA_KEY),
+      email: credentials.client_email,
+      key: credentials.private_key,
       scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
 
