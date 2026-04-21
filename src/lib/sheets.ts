@@ -60,21 +60,23 @@ function rowToProduct(row: string[]): Product | null {
     activo,
   ] = row;
 
-  if (!id || !slug || !nombre) return null;
+  const t = (v?: string) => (v ?? "").trim();
+
+  if (!t(id) || !t(slug) || !t(nombre)) return null;
 
   return {
-    id,
-    slug,
-    nombre,
-    categoria: categoria ?? "",
+    id: t(id),
+    slug: t(slug),
+    nombre: t(nombre),
+    categoria: t(categoria),
     precio: Number(precio) || 0,
     stock: Number(stock) || 0,
-    descripcionCorta: descripcionCorta ?? "",
-    descripcionLarga: descripcionLarga ?? "",
-    origen: origen || undefined,
-    notasCata: (notasCata ?? "").split(",").map((n) => n.trim()).filter(Boolean),
-    imagenPrincipal: imagenPrincipal ?? "",
-    imagenesExtra: (imagenesExtra ?? "").split(",").map((i) => i.trim()).filter(Boolean),
-    activo: String(activo).toUpperCase() === "TRUE" || activo === "1",
+    descripcionCorta: t(descripcionCorta),
+    descripcionLarga: t(descripcionLarga),
+    origen: t(origen) || undefined,
+    notasCata: t(notasCata).split(",").map((n) => n.trim()).filter(Boolean),
+    imagenPrincipal: t(imagenPrincipal),
+    imagenesExtra: t(imagenesExtra).split(",").map((i) => i.trim()).filter(Boolean),
+    activo: t(activo).toUpperCase() === "TRUE" || t(activo) === "1",
   };
 }
