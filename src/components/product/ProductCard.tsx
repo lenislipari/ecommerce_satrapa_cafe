@@ -27,7 +27,6 @@ export function ProductCard({ product }: ProductCardProps) {
   const accent = CARD_ACCENTS[accentIndex];
 
   const outOfStock = product.stock === 0;
-  const lowStock = product.stock > 0 && product.stock < 5;
 
   const imgUrl = product.imagenPrincipal
     ? cloudinaryUrl(product.imagenPrincipal, { width: 600, height: 750, crop: "fill" })
@@ -43,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
         "group relative flex flex-col overflow-hidden rounded-[var(--radius-lg)]",
         "bg-[var(--color-paper)] shadow-[var(--shadow-warm-sm)]",
         "transition-all duration-300 ease-out h-full",
-        "hover:-translate-y-1 hover:shadow-[var(--shadow-warm-md)]",
+        "hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[var(--shadow-warm-md)]",
         outOfStock && "opacity-60 saturate-50",
       )}
     >
@@ -84,19 +83,6 @@ export function ProductCard({ product }: ProductCardProps) {
             </>
           )}
 
-          {lowStock && (
-            <span
-              className={cn(
-                "absolute top-4 left-4 z-10 rounded-full px-3 py-1 text-xs font-semibold tracking-wide",
-                imgUrl
-                  ? "bg-[var(--color-orange)] text-white"
-                  : cn(accent.badge, "text-white"),
-              )}
-            >
-              ¡Quedan pocos!
-            </span>
-          )}
-
           {outOfStock && (
             <span className="absolute top-4 left-4 z-10 rounded-full bg-neutral-900/80 px-3 py-1 text-xs font-semibold tracking-wide text-white">
               Agotado
@@ -105,8 +91,8 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="flex flex-col flex-1 gap-2 p-5">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--color-sienna)]">
-            {formatCategoria(product.categoria)}
+          <p className="font-sans font-bold text-base text-[var(--color-coffee)] leading-snug">
+            {product.nombre}
           </p>
 
           <p className="font-serif italic text-[var(--color-ink)]/80 text-sm leading-snug">

@@ -15,7 +15,7 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="mx-auto max-w-6xl px-5 pt-16 pb-20 md:pt-24 md:pb-28 grid gap-10 md:grid-cols-[1.1fr_0.9fr] items-center">
+        <div className="mx-auto max-w-6xl px-5 pt-8 pb-14 md:pt-24 md:pb-28 grid gap-10 md:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="flex flex-col gap-6">
             <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[var(--color-coffee)]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-coffee)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-orange)] animate-pulse" />
