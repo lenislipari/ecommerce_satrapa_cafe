@@ -18,8 +18,8 @@ export function Header() {
           <Link href="/#tienda" className="hover:text-[var(--color-orange)] transition-colors">
             Tienda
           </Link>
-          <Link href="/#nosotros" className="hover:text-[var(--color-orange)] transition-colors">
-            Nosotros
+          <Link href="/#contacto" className="hover:text-[var(--color-orange)] transition-colors">
+            Contacto
           </Link>
         </nav>
 

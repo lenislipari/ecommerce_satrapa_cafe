@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-[var(--radius-lg)]",
         "bg-[var(--color-paper)] shadow-[var(--shadow-warm-sm)]",
-        "transition-all duration-300 ease-out",
+        "transition-all duration-300 ease-out h-full",
         "hover:-translate-y-1 hover:shadow-[var(--shadow-warm-md)]",
         outOfStock && "opacity-60 saturate-50",
       )}

@@ -1,11 +1,14 @@
 import { Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductCardSkeleton } from "@/components/product/ProductCardSkeleton";
 
 export const revalidate = 300;
+
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493515913367";
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "satrapacafe@gmail.com";
 
 export default async function HomePage() {
   return (
@@ -42,10 +45,10 @@ export default async function HomePage() {
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="#nosotros"
+                href="#contacto"
                 className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
               >
-                Nuestra historia
+                Contacto
               </a>
             </div>
           </div>
@@ -62,10 +65,7 @@ export default async function HomePage() {
       </section>
 
       {/* Manifiesto */}
-      <section
-        id="nosotros"
-        className="relative overflow-hidden bg-[var(--color-coffee)] text-[var(--color-cream)]"
-      >
+      <section className="relative overflow-hidden bg-[var(--color-coffee)] text-[var(--color-cream)]">
         <div className="mx-auto max-w-4xl px-5 py-16 md:py-24 text-center space-y-6 relative z-10">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--color-orange)]">
             El costado sátrapa
@@ -83,7 +83,6 @@ export default async function HomePage() {
           </p>
         </div>
 
-        {/* Perrito tomando café asomándose desde abajo izquierda */}
         <div
           className="pointer-events-none absolute -bottom-6 -left-8 md:-left-4 w-32 md:w-44 opacity-25 select-none"
           aria-hidden
@@ -97,7 +96,6 @@ export default async function HomePage() {
           />
         </div>
 
-        {/* Perrito con molinillo asomándose desde abajo derecha (espeja al de la izquierda) */}
         <div
           className="pointer-events-none absolute -bottom-6 -right-8 md:-right-4 w-32 md:w-44 opacity-25 select-none"
           aria-hidden
@@ -147,6 +145,65 @@ export default async function HomePage() {
         >
           <ProductGrid />
         </Suspense>
+      </section>
+
+      {/* Contacto */}
+      <section
+        id="contacto"
+        className="relative overflow-hidden bg-[var(--color-coffee)] text-[var(--color-cream)]"
+      >
+        <div className="mx-auto max-w-3xl px-5 py-16 md:py-24 text-center space-y-8 relative z-10">
+          <div className="space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--color-orange)]">
+              Contacto
+            </p>
+            <h2 className="font-sans text-3xl md:text-5xl font-extrabold leading-tight text-[var(--color-cream)]">
+              ¿Hablamos?
+            </h2>
+            <p className="font-serif text-lg text-[var(--color-cream)]/80 max-w-lg mx-auto leading-relaxed">
+              Para pedidos, consultas o simplemente saludar —
+              estamos al otro lado del chat.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("¡Hola Sátrapa! Quería consultarte algo ☕")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[#128C7E] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Escribinos por WhatsApp
+            </a>
+
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="inline-flex items-center gap-3 rounded-full border border-[var(--color-cream)]/25 px-8 py-4 text-sm font-semibold text-[var(--color-cream)] transition-all hover:bg-[var(--color-cream)]/10 hover:border-[var(--color-cream)]/50 hover:-translate-y-0.5"
+            >
+              <Mail className="w-5 h-5" />
+              {CONTACT_EMAIL}
+            </a>
+          </div>
+        </div>
+
+        <div
+          className="pointer-events-none absolute -bottom-6 -left-8 md:-left-4 w-32 md:w-44 opacity-20 select-none"
+          aria-hidden
+        >
+          <Image
+            src="/images/ilustracion-ojos-tapados.png"
+            alt=""
+            width={400}
+            height={500}
+            className="w-full h-auto"
+          />
+        </div>
+
+        <div
+          className="pointer-events-none absolute inset-0 bg-[var(--color-orange)]/5 blur-3xl"
+          aria-hidden
+        />
       </section>
     </>
   );

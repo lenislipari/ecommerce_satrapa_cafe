@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { ToastContainer } from "@/components/toast/Toast";
+import { WhatsAppFAB } from "@/components/layout/WhatsAppFAB";
 
 const gotham = Inter({
   variable: "--font-gotham",
@@ -74,6 +75,7 @@ export default function RootLayout({
         <Footer />
         <CartDrawer />
         <ToastContainer />
+        <WhatsAppFAB />
       </body>
     </html>
   );
