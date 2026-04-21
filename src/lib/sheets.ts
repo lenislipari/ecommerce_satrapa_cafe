@@ -14,13 +14,9 @@ export const getProducts = cache(async (): Promise<Product[]> => {
   try {
     const { google } = await import("googleapis");
 
-    const rawKey = SA_KEY
-      .replace(/^["']|["']$/g, "")   // quita comillas si quedaron al pegar en Vercel
-      .replace(/\\n/g, "\n");         // convierte \n literal a salto de línea real
-
     const auth = new google.auth.JWT({
       email: SA_EMAIL,
-      key: rawKey,
+      key: parsePrivateKey(SA_KEY),
       scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
 
@@ -46,6 +42,31 @@ export const getProductBySlug = cache(
     return products.find((p) => p.slug === slug) ?? null;
   },
 );
+
+function parsePrivateKey(raw: string): string {
+  const cleaned = raw.trim().replace(/^["']|["']$/g, "");
+
+  if (
+    cleaned.includes("BEGIN PRIVATE KEY") ||
+    cleaned.includes("BEGIN RSA PRIVATE KEY")
+  ) {
+    return cleaned.replace(/\\n/g, "\n").replace(/\r/g, "");
+  }
+
+  try {
+    const decoded = Buffer.from(cleaned, "base64").toString("utf-8");
+    if (
+      decoded.includes("BEGIN PRIVATE KEY") ||
+      decoded.includes("BEGIN RSA PRIVATE KEY")
+    ) {
+      return decoded.replace(/\\n/g, "\n").replace(/\r/g, "");
+    }
+  } catch {
+    // fall through
+  }
+
+  return cleaned;
+}
 
 function rowToProduct(row: string[]): Product | null {
   const [
