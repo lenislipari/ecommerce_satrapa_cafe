@@ -19,7 +19,7 @@ const MOLIENDA_LABELS: Record<Molienda, string> = {
 
 const MOLIENDA_HINTS: Record<Molienda, string> = {
   grano: "Para los que muelen en casa",
-  "molido filtro": "V60, Chemex, cafetera de filtro",
+  "molido filtro": "Prensa francesa, Chemex, cafetera de filtro",
   "molido moka": "Cafetera italiana / moka",
   "molido espresso": "Máquina espresso",
 };

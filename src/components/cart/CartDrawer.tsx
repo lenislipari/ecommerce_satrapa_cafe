@@ -147,6 +147,17 @@ export function CartDrawer() {
                       </div>
                     </div>
 
+                    <div className="border-t border-[var(--color-coffee)]/10 px-5 py-3">
+                      <Dialog.Close asChild>
+                        <a
+                          href="/#tienda"
+                          className="block w-full text-center rounded-full border border-[var(--color-coffee)]/25 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+                        >
+                          ← Seguir comprando
+                        </a>
+                      </Dialog.Close>
+                    </div>
+
                     <div className="border-t border-[var(--color-coffee)]/10 bg-[var(--color-cream-soft)] px-5 py-4 space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="font-serif text-sm text-[var(--color-ink)]/70">
@@ -178,6 +189,7 @@ export function CartDrawer() {
                           Vaciar carrito
                         </button>
                       </div>
+
                     </div>
                   </>
                 )}
