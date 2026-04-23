@@ -18,7 +18,7 @@ export const MOLIENDAS = [
 export type Molienda = (typeof MOLIENDAS)[number];
 
 export function isCoffeeCategory(categoria: string): boolean {
-  return categoria.trim().toLowerCase().startsWith("cafe");
+  return categoria.trim().toLowerCase().startsWith("cafe x");
 }
 
 export interface Product {
