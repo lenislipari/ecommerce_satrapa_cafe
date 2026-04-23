@@ -59,6 +59,7 @@ export const useCartStore = create<CartState>()(
                 nombre: product.nombre,
                 precio: product.precio,
                 cantidad: Math.min(cantidad, product.stock),
+                stock: product.stock,
                 imagenPrincipal: product.imagenPrincipal,
                 molienda,
               },
@@ -75,7 +76,9 @@ export const useCartStore = create<CartState>()(
             cantidad <= 0
               ? state.items.filter((i) => i.id !== itemId)
               : state.items.map((i) =>
-                  i.id === itemId ? { ...i, cantidad } : i,
+                  i.id === itemId
+                    ? { ...i, cantidad: Math.min(cantidad, i.stock ?? 9999) }
+                    : i,
                 ),
         })),
 
@@ -92,20 +95,26 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "satrapa-cart",
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ items: state.items, customer: state.customer }),
       onRehydrateStorage: () => (state) => state?.setHasHydrated(true),
       migrate: (persistedState: unknown, version) => {
-        if (version < 2 && persistedState && typeof persistedState === "object") {
-          const ps = persistedState as { items?: Array<Record<string, unknown>> };
-          const items = (ps.items ?? []).map((raw) => {
-            const productId = String(raw.productId ?? "");
-            return { ...raw, id: productId } as CartItem;
-          });
-          return { ...ps, items } as Partial<CartState>;
+        const ps = (persistedState ?? {}) as { items?: Array<Record<string, unknown>> };
+        let items = ps.items ?? [];
+        if (version < 2) {
+          items = items.map((raw) => ({
+            ...raw,
+            id: String(raw.productId ?? ""),
+          }));
         }
-        return persistedState as Partial<CartState>;
+        if (version < 3) {
+          items = items.map((raw) => ({
+            ...raw,
+            stock: typeof raw.stock === "number" ? raw.stock : 9999,
+          }));
+        }
+        return { ...ps, items } as unknown as Partial<CartState>;
       },
     },
   ),

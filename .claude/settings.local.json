@@ -3,7 +3,8 @@
     "allow": [
       "Bash(git push *)",
       "Bash(node scripts/gen-sa-json.mjs)",
-      "Bash(clip)"
+      "Bash(clip)",
+      "Bash(npx tsc *)"
     ]
   }
 }

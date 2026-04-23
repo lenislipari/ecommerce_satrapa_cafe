@@ -10,6 +10,19 @@ import { cloudinaryUrl } from "@/lib/cloudinary";
 
 export const revalidate = 300;
 
+async function fetchBlurDataURL(url: string): Promise<string | undefined> {
+  try {
+    const res = await fetch(url, { cache: "force-cache" });
+    if (!res.ok) return undefined;
+    const buffer = await res.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
+    const mime = res.headers.get("content-type") ?? "image/jpeg";
+    return `data:${mime};base64,${base64}`;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function generateStaticParams() {
   const products = await getProducts();
   return products.map((p) => ({ slug: p.slug }));
@@ -60,13 +73,22 @@ export default async function ProductPage({
     VISUAL_ACCENTS.length;
   const accent = VISUAL_ACCENTS[accentIndex];
 
-  const buildUrl = (pubId: string) =>
-    cloudinaryUrl(pubId, { width: 900, height: 1125, crop: "fill" });
+  const rawPubIds = [
+    product.imagenPrincipal,
+    ...product.imagenesExtra,
+  ].filter((id): id is string => Boolean(id));
 
-  const carouselImages = [
-    product.imagenPrincipal ? buildUrl(product.imagenPrincipal) : null,
-    ...product.imagenesExtra.map(buildUrl),
-  ].filter((u): u is string => Boolean(u));
+  const carouselImages = rawPubIds.map((pubId) =>
+    cloudinaryUrl(pubId, { width: 900, height: 1125, crop: "fill" }),
+  );
+
+  const blurDataURLs = await Promise.all(
+    rawPubIds.map((pubId) =>
+      fetchBlurDataURL(
+        cloudinaryUrl(pubId, { width: 20, height: 25, crop: "fill", quality: 1, format: "jpg" }),
+      ),
+    ),
+  );
 
   const fallback = (
     <>
@@ -98,6 +120,7 @@ export default async function ProductPage({
       <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 items-start">
         <ProductImageCarousel
           images={carouselImages}
+          blurDataURLs={blurDataURLs}
           alt={product.nombre}
           accent={accent}
           fallback={fallback}

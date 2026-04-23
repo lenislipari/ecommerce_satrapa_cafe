@@ -2,6 +2,7 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 import { useCartStore, selectSubtotal } from "@/stores/useCartStore";
@@ -149,12 +150,12 @@ export function CartDrawer() {
 
                     <div className="border-t border-[var(--color-coffee)]/10 px-5 py-3">
                       <Dialog.Close asChild>
-                        <a
+                        <Link
                           href="/#tienda"
                           className="block w-full text-center rounded-full border border-[var(--color-coffee)]/25 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
                         >
                           ← Seguir comprando
-                        </a>
+                        </Link>
                       </Dialog.Close>
                     </div>
 

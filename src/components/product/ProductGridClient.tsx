@@ -1,17 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Product } from "@/types/product";
-import { CATEGORIES } from "@/types/product";
 import { ProductCard } from "./ProductCard";
 import { cn } from "@/lib/utils";
+import { useFilterStore, type Filter } from "@/stores/useFilterStore";
 
 type ProductGridClientProps = {
   products: Product[];
 };
-
-type Filter = "todos" | (typeof CATEGORIES)[number];
 
 const FILTERS: { value: Filter; label: string }[] = [
   { value: "todos", label: "Todos" },
@@ -23,7 +21,8 @@ const FILTERS: { value: Filter; label: string }[] = [
 ];
 
 export function ProductGridClient({ products }: ProductGridClientProps) {
-  const [filter, setFilter] = useState<Filter>("todos");
+  const filter = useFilterStore((s) => s.filter);
+  const setFilter = useFilterStore((s) => s.setFilter);
 
   const filtered = useMemo(() => {
     if (filter === "todos") return products;

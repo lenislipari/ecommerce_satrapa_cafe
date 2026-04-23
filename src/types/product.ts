@@ -44,6 +44,7 @@ export interface CartItem {
   nombre: string;
   precio: number;
   cantidad: number;
+  stock: number;
   imagenPrincipal: string;
   molienda?: Molienda;
 }

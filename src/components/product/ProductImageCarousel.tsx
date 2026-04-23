@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 type ProductImageCarouselProps = {
   images: string[];
+  blurDataURLs?: (string | undefined)[];
   alt: string;
   accent: string;
   fallback: React.ReactNode;
@@ -15,6 +16,7 @@ type ProductImageCarouselProps = {
 
 export function ProductImageCarousel({
   images,
+  blurDataURLs,
   alt,
   accent,
   fallback,
@@ -73,6 +75,8 @@ export function ProductImageCarousel({
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
               priority={current === 0}
+              placeholder={blurDataURLs?.[current] ? "blur" : "empty"}
+              blurDataURL={blurDataURLs?.[current]}
             />
           </motion.div>
         </AnimatePresence>

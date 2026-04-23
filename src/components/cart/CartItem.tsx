@@ -79,7 +79,8 @@ export function CartItem({ item }: CartItemProps) {
               type="button"
               onClick={() => updateQuantity(item.id, item.cantidad + 1)}
               aria-label="Aumentar cantidad"
-              className="grid place-items-center w-7 h-7 rounded-full text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/10"
+              disabled={item.cantidad >= item.stock}
+              className="grid place-items-center w-7 h-7 rounded-full text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/10 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <Plus className="w-3 h-3" />
             </button>

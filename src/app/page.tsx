@@ -49,7 +49,7 @@ export default async function HomePage() {
                 href="#test"
                 className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
               >
-                Encontrá tu café
+                Test café ideal
               </a>
               <a
                 href="#contacto"
