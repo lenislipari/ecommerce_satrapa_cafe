@@ -21,6 +21,9 @@ export function Header() {
           <Link href="/#contacto" className="hover:text-[var(--color-orange)] transition-colors">
             Contacto
           </Link>
+          <Link href="/#test" className="hover:text-[var(--color-orange)] transition-colors">
+            Test café ideal
+          </Link>
         </nav>
 
         <CartButton />

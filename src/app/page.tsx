@@ -4,6 +4,7 @@ import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductCardSkeleton } from "@/components/product/ProductCardSkeleton";
+import { CafeTestSection } from "@/components/test/CafeTestSection";
 
 export const revalidate = 300;
 
@@ -43,6 +44,12 @@ export default async function HomePage() {
               >
                 Ver la tienda
                 <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="#test"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+              >
+                Encontrá tu café
               </a>
               <a
                 href="#contacto"
@@ -109,6 +116,9 @@ export default async function HomePage() {
           />
         </div>
       </section>
+
+      {/* Test del café */}
+      <CafeTestSection />
 
       {/* Tienda */}
       <section
