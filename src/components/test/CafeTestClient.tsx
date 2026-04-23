@@ -11,6 +11,7 @@ import { cloudinaryUrl } from "@/lib/cloudinary";
 import { useCartStore } from "@/stores/useCartStore";
 import {
   CAFE_GROUPS,
+  CAFE_500G_MAP,
   INTENSITY_META,
   type IntensityLevel,
 } from "@/lib/cafe-test";
@@ -65,6 +66,11 @@ export function CafeTestClient({ products }: { products: Product[] }) {
     addItem(selected);
     openCart();
   };
+
+  const slug500 = selected ? CAFE_500G_MAP[selected.slug] : null;
+  const product500 = slug500
+    ? products.find((p) => p.slug.trim().toLowerCase() === slug500.toLowerCase())
+    : null;
 
   return (
     <div className="relative">
@@ -266,21 +272,32 @@ export function CafeTestClient({ products }: { products: Product[] }) {
                     Ver detalle
                   </Link>
                 </div>
+
               </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <div className="flex flex-wrap justify-center gap-6 mt-8">
               <button
                 type="button"
                 onClick={reset}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-coffee)]/70 hover:text-[var(--color-orange)] transition-colors"
+                className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-coffee)]/80 hover:text-[var(--color-orange)] transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
                 Hacer el test de nuevo
               </button>
+              {product500 && (
+                <button
+                  type="button"
+                  onClick={() => setSelected(product500)}
+                  className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-coffee)]/80 hover:text-[var(--color-orange)] transition-colors"
+                >
+                  Soy muy fan, necesito 500g
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
               <a
                 href="#tienda"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-coffee)]/70 hover:text-[var(--color-orange)] transition-colors"
+                className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-coffee)]/80 hover:text-[var(--color-orange)] transition-colors"
               >
                 Ver más opciones en la tienda
                 <ArrowRight className="w-4 h-4" />

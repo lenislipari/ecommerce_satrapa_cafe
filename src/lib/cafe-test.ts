@@ -6,6 +6,16 @@ export const CAFE_GROUPS: Record<IntensityLevel, string[]> = {
   intenso: ["moka", "ipanema"],
 };
 
+// Mapeá aquí el slug 250g → slug 500g cuando los cargues en el Sheet
+export const CAFE_500G_MAP: Record<string, string> = {
+  carioca: "carioca2",
+  premium: "premium2",
+  mestizo: "mestizo2",
+  colombiano: "colombiano2",
+  moka: "moka2",
+  ipanema: "ipanema2",
+};
+
 export const INTENSITY_META: Record<
   IntensityLevel,
   { label: string; description: string; accent: string; dot: string }
