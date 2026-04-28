@@ -87,6 +87,7 @@ export function ProductGridClient({ products }: ProductGridClientProps) {
             {filtered.map((product) => (
               <motion.div
                 key={product.id}
+                id={`producto-${product.slug}`}
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

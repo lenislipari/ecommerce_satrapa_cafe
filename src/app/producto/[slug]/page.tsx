@@ -110,7 +110,7 @@ export default async function ProductPage({
   return (
     <article className="mx-auto max-w-6xl px-5 py-10 md:py-16">
       <Link
-        href="/#tienda"
+        href={`/#producto-${slug}`}
         className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-coffee)]/70 transition-colors hover:text-[var(--color-orange)] mb-8"
       >
         <ArrowLeft className="w-4 h-4" />
