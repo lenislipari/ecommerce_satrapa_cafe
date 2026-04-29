@@ -1,7 +1,7 @@
 import type { CartItem, CustomerData } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
 
-const WA_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493515913367";
+const WA_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493512041738";
 
 export function generatePedidoId(): string {
   return `SAT-${Date.now().toString(36).toUpperCase()}`;

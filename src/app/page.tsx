@@ -8,7 +8,7 @@ import { CafeTestSection } from "@/components/test/CafeTestSection";
 
 export const revalidate = 300;
 
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493515913367";
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493512041738";
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "satrapacafe@gmail.com";
 
 export default async function HomePage() {
@@ -20,7 +20,7 @@ export default async function HomePage() {
           <div className="flex flex-col gap-6">
             <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[var(--color-coffee)]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-coffee)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-orange)] animate-pulse" />
-              Café de especialidad · Sierras Chicas
+              Café 100% tostado · Sierras Chicas, Córdoba
             </span>
 
             <h1 className="text-display text-[var(--color-coffee)]">

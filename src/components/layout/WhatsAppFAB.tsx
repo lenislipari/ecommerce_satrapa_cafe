@@ -1,6 +1,6 @@
 "use client";
 
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493515913367";
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493512041738";
 const WA_HREF = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("¡Hola Sátrapa! Quería consultarte algo ☕")}`;
 
 function WhatsAppIcon() {
