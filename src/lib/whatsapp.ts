@@ -42,6 +42,11 @@ export function buildWhatsAppMessage(
     datosCliente,
     datosCliente ? "" : null,
     `(Pedido #${pedidoId})`,
+    "",
+    "💳 DATOS PARA TRANSFERENCIA:",
+    "Mercado Pago",
+    "Ailiñ Correa Perelmuter",
+    "ALIAS: satrapacafe",
   ]
     .filter((line) => line !== null)
     .join("\n");
