@@ -20,9 +20,19 @@ export function CartDrawer() {
   const updateCustomer = useCartStore((s) => s.updateCustomer);
   const subtotal = useCartStore(selectSubtotal);
   const [sending, setSending] = useState(false);
+  const [errors, setErrors] = useState<{ nombre?: string; direccion?: string }>({});
 
   const handleCheckout = async () => {
     if (items.length === 0 || sending) return;
+
+    const newErrors: { nombre?: string; direccion?: string } = {};
+    if (!customer.nombre.trim()) newErrors.nombre = "Ingresá tu nombre";
+    if (!customer.direccion.trim()) newErrors.direccion = "Ingresá tu dirección";
+    if (newErrors.nombre || newErrors.direccion) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
     setSending(true);
 
     const pedidoId = generatePedidoId();
@@ -122,22 +132,28 @@ export function CartDrawer() {
 
                       <div className="mt-6 space-y-3">
                         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-sienna)]">
-                          Tus datos (opcional)
+                          Tus datos
                         </p>
-                        <input
-                          type="text"
-                          placeholder="Tu nombre"
-                          value={customer.nombre}
-                          onChange={(e) => updateCustomer({ nombre: e.target.value })}
-                          className="w-full rounded-[var(--radius-md)] bg-[var(--color-paper)] border border-[var(--color-coffee)]/15 px-4 py-2.5 text-sm text-[var(--color-coffee)] placeholder:text-[var(--color-ink)]/40 focus:outline-none focus:border-[var(--color-orange)]"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Dirección (para envío)"
-                          value={customer.direccion}
-                          onChange={(e) => updateCustomer({ direccion: e.target.value })}
-                          className="w-full rounded-[var(--radius-md)] bg-[var(--color-paper)] border border-[var(--color-coffee)]/15 px-4 py-2.5 text-sm text-[var(--color-coffee)] placeholder:text-[var(--color-ink)]/40 focus:outline-none focus:border-[var(--color-orange)]"
-                        />
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Tu nombre *"
+                            value={customer.nombre}
+                            onChange={(e) => { updateCustomer({ nombre: e.target.value }); setErrors((p) => ({ ...p, nombre: undefined })); }}
+                            className={`w-full rounded-[var(--radius-md)] bg-[var(--color-paper)] border px-4 py-2.5 text-sm text-[var(--color-coffee)] placeholder:text-[var(--color-ink)]/40 focus:outline-none focus:border-[var(--color-orange)] ${errors.nombre ? "border-red-400" : "border-[var(--color-coffee)]/15"}`}
+                          />
+                          {errors.nombre && <p className="mt-1 text-xs text-red-500">{errors.nombre}</p>}
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Dirección (para envío) *"
+                            value={customer.direccion}
+                            onChange={(e) => { updateCustomer({ direccion: e.target.value }); setErrors((p) => ({ ...p, direccion: undefined })); }}
+                            className={`w-full rounded-[var(--radius-md)] bg-[var(--color-paper)] border px-4 py-2.5 text-sm text-[var(--color-coffee)] placeholder:text-[var(--color-ink)]/40 focus:outline-none focus:border-[var(--color-orange)] ${errors.direccion ? "border-red-400" : "border-[var(--color-coffee)]/15"}`}
+                          />
+                          {errors.direccion && <p className="mt-1 text-xs text-red-500">{errors.direccion}</p>}
+                        </div>
                         <textarea
                           placeholder="Notas (aclaraciones, horario...)"
                           value={customer.notas}
