@@ -27,7 +27,7 @@ export function CartDrawer() {
 
     const newErrors: { nombre?: string; direccion?: string } = {};
     if (!customer.nombre.trim()) newErrors.nombre = "Ingresá tu nombre";
-    if (!customer.direccion.trim()) newErrors.direccion = "Ingresá tu dirección";
+    if (!customer.direccion?.trim()) newErrors.direccion = "Ingresá tu dirección";
     if (newErrors.nombre || newErrors.direccion) {
       setErrors(newErrors);
       return;
