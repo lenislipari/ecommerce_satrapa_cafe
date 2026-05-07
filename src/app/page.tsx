@@ -37,25 +37,55 @@ export default async function HomePage() {
               para esos pequeños momentos que hacen la vida más linda.
             </p>
 
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-col gap-3 pt-2">
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#tienda"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-coffee)] px-6 py-3 text-sm font-semibold text-[var(--color-cream)] shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[var(--color-orange)] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
+                >
+                  Ver la tienda
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="#test"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+                >
+                  Test café ideal
+                </a>
+                <div className="flex gap-3">
+                  <a
+                    href="#contacto"
+                    className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+                  >
+                    Contacto
+                  </a>
+                  <a
+                    href="https://www.instagram.com/satrapa_cafe/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sm:hidden inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <circle cx="12" cy="12" r="4" />
+                      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                    </svg>
+                    @satrapa_cafe
+                  </a>
+                </div>
+              </div>
               <a
-                href="#tienda"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--color-coffee)] px-6 py-3 text-sm font-semibold text-[var(--color-cream)] shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[var(--color-orange)] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
+                href="https://www.instagram.com/satrapa_cafe/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
               >
-                Ver la tienda
-                <ArrowRight className="w-4 h-4" />
-              </a>
-              <a
-                href="#test"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
-              >
-                Test café ideal
-              </a>
-              <a
-                href="#contacto"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
-              >
-                Contacto
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                </svg>
+                @satrapa_cafe
               </a>
             </div>
           </div>
@@ -176,16 +206,32 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("¡Hola Sátrapa! Quería consultarte algo ☕")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[#128C7E] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Escribinos por WhatsApp
-            </a>
+          <div className="flex flex-col gap-4 items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("¡Hola Sátrapa! Quería consultarte algo ☕")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[#128C7E] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Escribinos por WhatsApp
+              </a>
+
+              <a
+                href="https://www.instagram.com/satrapa_cafe/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 rounded-full bg-gradient-to-br from-[#A78BFA] via-[#F472B6] to-[#FCD34D] px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-warm-sm)] transition-all hover:opacity-90 hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                </svg>
+                @satrapa_cafe
+              </a>
+            </div>
 
             <a
               href={`mailto:${CONTACT_EMAIL}`}

@@ -2,7 +2,6 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 import { useCartStore, selectSubtotal } from "@/stores/useCartStore";
@@ -110,14 +109,18 @@ export function CartDrawer() {
                         Date un gusto, te lo merecés.
                       </p>
                     </div>
-                    <Dialog.Close asChild>
-                      <button
-                        type="button"
-                        className="rounded-full bg-[var(--color-coffee)] px-5 py-2.5 text-sm font-semibold text-[var(--color-cream)] transition-colors hover:bg-[var(--color-orange)]"
-                      >
-                        Explorar la tienda
-                      </button>
-                    </Dialog.Close>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeCart();
+                        setTimeout(() => {
+                          document.getElementById("tienda")?.scrollIntoView({ behavior: "smooth" });
+                        }, 350);
+                      }}
+                      className="rounded-full bg-[var(--color-coffee)] px-5 py-2.5 text-sm font-semibold text-[var(--color-cream)] transition-colors hover:bg-[var(--color-orange)]"
+                    >
+                      Explorar la tienda
+                    </button>
                   </div>
                 ) : (
                   <>
@@ -165,14 +168,18 @@ export function CartDrawer() {
                     </div>
 
                     <div className="border-t border-[var(--color-coffee)]/10 px-5 py-3">
-                      <Dialog.Close asChild>
-                        <Link
-                          href="/#tienda"
-                          className="block w-full text-center rounded-full border border-[var(--color-coffee)]/25 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
-                        >
-                          ← Seguir comprando
-                        </Link>
-                      </Dialog.Close>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          closeCart();
+                          setTimeout(() => {
+                            document.getElementById("tienda")?.scrollIntoView({ behavior: "smooth" });
+                          }, 350);
+                        }}
+                        className="block w-full text-center rounded-full border border-[var(--color-coffee)]/25 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+                      >
+                        ← Seguir comprando
+                      </button>
                     </div>
 
                     <div className="border-t border-[var(--color-coffee)]/10 bg-[var(--color-cream-soft)] px-5 py-4 space-y-3">

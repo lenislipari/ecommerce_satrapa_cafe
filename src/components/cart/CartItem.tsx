@@ -18,7 +18,7 @@ export function CartItem({ item }: CartItemProps) {
 
   const handleRemove = () => {
     removeItem(item.id);
-    addToast(`${item.nombre} removido del carrito`, "info");
+    addToast(`${item.nombre} eliminado del carrito`);
   };
 
   return (
