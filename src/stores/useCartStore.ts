@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { CartItem, CustomerData, Molienda, Product } from "@/types/product";
+import { trackAddToCart } from "@/lib/metaPixel";
 
 type CartState = {
   items: CartItem[];
@@ -37,18 +38,21 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
       hasHydrated: false,
 
-      addItem: (product, cantidad = 1, molienda) =>
+      addItem: (product, cantidad = 1, molienda) => {
+        let addedQuantity = 0;
         set((state) => {
           const id = buildItemId(product.id, molienda);
           const existing = state.items.find((i) => i.id === id);
           if (existing) {
             const nuevaCantidad = Math.min(existing.cantidad + cantidad, product.stock);
+            addedQuantity = nuevaCantidad - existing.cantidad;
             return {
               items: state.items.map((i) =>
                 i.id === id ? { ...i, cantidad: nuevaCantidad } : i,
               ),
             };
           }
+          addedQuantity = Math.min(cantidad, product.stock);
           return {
             items: [
               ...state.items,
@@ -58,14 +62,23 @@ export const useCartStore = create<CartState>()(
                 slug: product.slug,
                 nombre: product.nombre,
                 precio: product.precio,
-                cantidad: Math.min(cantidad, product.stock),
+                cantidad: addedQuantity,
                 stock: product.stock,
                 imagenPrincipal: product.imagenPrincipal,
                 molienda,
               },
             ],
           };
-        }),
+        });
+        if (addedQuantity > 0) {
+          trackAddToCart({
+            contentId: product.id,
+            contentName: product.nombre,
+            value: product.precio,
+            quantity: addedQuantity,
+          });
+        }
+      },
 
       removeItem: (itemId) =>
         set((state) => ({ items: state.items.filter((i) => i.id !== itemId) })),

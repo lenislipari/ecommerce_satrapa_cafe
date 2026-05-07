@@ -8,6 +8,7 @@ import { useCartStore, selectSubtotal } from "@/stores/useCartStore";
 import { CartItem } from "@/components/cart/CartItem";
 import { generatePedidoId, getWhatsAppLink } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/utils";
+import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useState } from "react";
 
 export function CartDrawer() {
@@ -36,6 +37,8 @@ export function CartDrawer() {
 
     const pedidoId = generatePedidoId();
 
+    trackInitiateCheckout({ items, value: subtotal });
+
     fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,6 +47,7 @@ export function CartDrawer() {
 
     const link = getWhatsAppLink(items, customer, pedidoId);
     window.open(link, "_blank", "noopener,noreferrer");
+    trackPurchase({ items, value: subtotal, orderId: pedidoId });
     setSending(false);
   };
 
