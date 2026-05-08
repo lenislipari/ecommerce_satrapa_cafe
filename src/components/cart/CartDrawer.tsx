@@ -98,7 +98,7 @@ export function CartDrawer() {
                       className="relative w-48 h-48"
                     >
                       <Image
-                        src="/images/ilustracion-ojos-tapados.png"
+                        src="/images/ilustracion-ojos-tapados.webp"
                         alt="Perrito tapándose los ojos"
                         fill
                         sizes="192px"

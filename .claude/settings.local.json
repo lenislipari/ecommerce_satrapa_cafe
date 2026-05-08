@@ -4,7 +4,12 @@
       "Bash(git push *)",
       "Bash(node scripts/gen-sa-json.mjs)",
       "Bash(clip)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(where cwebp *)",
+      "Bash(where magick *)",
+      "Bash(node -e \"try{require\\('sharp'\\);console.log\\('sharp:OK'\\)}catch\\(e\\){console.log\\('sharp:NO'\\)}\")",
+      "Bash(cd /c/Users/lenis.lipari/repositorios/satrapa-cafe && grep -rohE \"font-\\(medium|semibold|bold|extrabold|normal|light\\)\" src/ 2>/dev/null | sort | uniq -c | sort -rn)",
+      "Read(//c/c/Users/lenis.lipari/repositorios/satrapa-cafe/**)"
     ]
   }
 }

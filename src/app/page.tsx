@@ -125,7 +125,7 @@ export default async function HomePage() {
           aria-hidden
         >
           <Image
-            src="/images/ilustracion-tomando-cafe.png"
+            src="/images/ilustracion-tomando-cafe.webp"
             alt=""
             width={400}
             height={500}
@@ -138,7 +138,7 @@ export default async function HomePage() {
           aria-hidden
         >
           <Image
-            src="/images/ilustracion-molinillo.png"
+            src="/images/ilustracion-molinillo.webp"
             alt=""
             width={400}
             height={500}
@@ -248,7 +248,7 @@ export default async function HomePage() {
           aria-hidden
         >
           <Image
-            src="/images/ilustracion-ojos-tapados.png"
+            src="/images/ilustracion-ojos-tapados.webp"
             alt=""
             width={400}
             height={500}

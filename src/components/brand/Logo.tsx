@@ -8,9 +8,9 @@ type LogoProps = {
 };
 
 const VARIANTS = {
-  stacked: { src: "/images/logo-vertical-color.png", width: 500, height: 550 },
-  inline: { src: "/images/logo-horizontal-color.png", width: 600, height: 320 },
-  "inline-white": { src: "/images/logo-horizontal-blanco.png", width: 600, height: 320 },
+  stacked: { src: "/images/logo-vertical-color.webp", width: 500, height: 550 },
+  inline: { src: "/images/logo-horizontal-color.webp", width: 600, height: 320 },
+  "inline-white": { src: "/images/logo-horizontal-blanco.webp", width: 600, height: 320 },
 } as const;
 
 export function Logo({ variant = "stacked", className, priority = false }: LogoProps) {

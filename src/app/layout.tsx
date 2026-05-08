@@ -23,7 +23,7 @@ const garamond = EB_Garamond({
   subsets: ["latin"],
   display: "swap",
   style: ["normal", "italic"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -76,7 +76,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-[var(--color-background)] text-[var(--color-foreground)]">
         {META_PIXEL_ID && (
           <>
-            <Script id="meta-pixel" strategy="afterInteractive">
+            <Script id="meta-pixel" strategy="beforeInteractive">
               {`!function(f,b,e,v,n,t,s)
               {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
               n.callMethod.apply(n,arguments):n.queue.push(arguments)};
