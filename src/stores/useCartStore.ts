@@ -24,7 +24,7 @@ type CartState = {
   setHasHydrated: (v: boolean) => void;
 };
 
-const INITIAL_CUSTOMER: CustomerData = { nombre: "", direccion: "", notas: "" };
+const INITIAL_CUSTOMER: CustomerData = { nombre: "", direccion: "", notas: "", villaCatalina: false };
 
 function buildItemId(productId: string, molienda?: Molienda): string {
   return molienda ? `${productId}::${molienda}` : productId;
@@ -133,8 +133,21 @@ export const useCartStore = create<CartState>()(
   ),
 );
 
+export const SHIPPING_COST = 2000;
+export const FREE_SHIPPING_THRESHOLD = 42000;
+
 export const selectItemCount = (state: CartState) =>
   state.items.reduce((acc, i) => acc + i.cantidad, 0);
 
 export const selectSubtotal = (state: CartState) =>
   state.items.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
+
+export const selectShipping = (state: CartState) => {
+  if (state.items.length === 0) return 0;
+  if (state.customer.villaCatalina) return 0;
+  const subtotal = selectSubtotal(state);
+  return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+};
+
+export const selectTotal = (state: CartState) =>
+  selectSubtotal(state) + selectShipping(state);

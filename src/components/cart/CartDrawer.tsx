@@ -3,8 +3,14 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { MessageCircle, X } from "lucide-react";
-import { useCartStore, selectSubtotal } from "@/stores/useCartStore";
+import { MessageCircle, Truck, X } from "lucide-react";
+import {
+  useCartStore,
+  selectSubtotal,
+  selectShipping,
+  selectTotal,
+  FREE_SHIPPING_THRESHOLD,
+} from "@/stores/useCartStore";
 import { CartItem } from "@/components/cart/CartItem";
 import { generatePedidoId, getWhatsAppLink } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/utils";
@@ -19,6 +25,15 @@ export function CartDrawer() {
   const customer = useCartStore((s) => s.customer);
   const updateCustomer = useCartStore((s) => s.updateCustomer);
   const subtotal = useCartStore(selectSubtotal);
+  const shipping = useCartStore(selectShipping);
+  const total = useCartStore(selectTotal);
+  const isVillaCatalina = !!customer.villaCatalina;
+  const freeShipping = isVillaCatalina || subtotal >= FREE_SHIPPING_THRESHOLD;
+  const missingForFreeShipping = Math.max(FREE_SHIPPING_THRESHOLD - subtotal, 0);
+  const freeShippingProgress = Math.min(
+    100,
+    Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100),
+  );
   const [sending, setSending] = useState(false);
   const [errors, setErrors] = useState<{ nombre?: string; direccion?: string }>({});
 
@@ -37,17 +52,17 @@ export function CartDrawer() {
 
     const pedidoId = generatePedidoId();
 
-    trackInitiateCheckout({ items, value: subtotal });
+    trackInitiateCheckout({ items, value: total });
 
     fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pedidoId, items, customer, subtotal }),
+      body: JSON.stringify({ pedidoId, items, customer, subtotal, shipping, total }),
     }).catch(() => {});
 
     const link = getWhatsAppLink(items, customer, pedidoId);
     window.open(link, "_blank", "noopener,noreferrer");
-    trackPurchase({ items, value: subtotal, orderId: pedidoId });
+    trackPurchase({ items, value: total, orderId: pedidoId });
     setSending(false);
   };
 
@@ -161,6 +176,18 @@ export function CartDrawer() {
                           />
                           {errors.direccion && <p className="mt-1 text-xs text-red-500">{errors.direccion}</p>}
                         </div>
+                        <label className="flex items-start gap-2.5 cursor-pointer select-none rounded-[var(--radius-md)] border border-[var(--color-coffee)]/15 bg-[var(--color-paper)] px-3 py-2.5 text-sm text-[var(--color-coffee)] transition-colors hover:border-[var(--color-orange)]/40">
+                          <input
+                            type="checkbox"
+                            checked={!!customer.villaCatalina}
+                            onChange={(e) => updateCustomer({ villaCatalina: e.target.checked })}
+                            className="mt-0.5 h-4 w-4 accent-[var(--color-orange)]"
+                          />
+                          <span className="leading-tight">
+                            Soy de Villa Catalina
+                            <span className="ml-1 font-serif italic text-[var(--color-ink)]/60">— envío gratis 🎉</span>
+                          </span>
+                        </label>
                         <textarea
                           placeholder="Notas (aclaraciones, horario...)"
                           value={customer.notas}
@@ -187,13 +214,62 @@ export function CartDrawer() {
                     </div>
 
                     <div className="border-t border-[var(--color-coffee)]/10 bg-[var(--color-cream-soft)] px-5 py-4 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="font-serif text-sm text-[var(--color-ink)]/70">
-                          Subtotal
-                        </span>
-                        <span className="font-sans font-extrabold text-2xl text-[var(--color-coffee)]">
-                          {formatPrice(subtotal)}
-                        </span>
+                      <div
+                        className={`rounded-[var(--radius-md)] border px-3 py-2.5 ${
+                          freeShipping
+                            ? "border-[var(--color-orange)]/40 bg-[var(--color-orange)]/10"
+                            : "border-[var(--color-coffee)]/15 bg-[var(--color-paper)]"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-coffee)]">
+                          <Truck className="w-4 h-4 text-[var(--color-orange)]" />
+                          {isVillaCatalina ? (
+                            <span>Envío gratis en Villa Catalina 🎉</span>
+                          ) : freeShipping ? (
+                            <span>¡Tenés envío gratis! 🎉</span>
+                          ) : (
+                            <span>
+                              Te faltan{" "}
+                              <span className="text-[var(--color-orange)]">
+                                {formatPrice(missingForFreeShipping)}
+                              </span>{" "}
+                              para envío gratis
+                            </span>
+                          )}
+                        </div>
+                        {!isVillaCatalina && (
+                          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-coffee)]/10">
+                            <div
+                              className="h-full rounded-full bg-[var(--color-orange)] transition-all duration-500"
+                              style={{ width: `${freeShippingProgress}%` }}
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1.5 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="font-serif text-[var(--color-ink)]/70">Subtotal</span>
+                          <span className="font-sans font-semibold text-[var(--color-coffee)]">
+                            {formatPrice(subtotal)}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="font-serif text-[var(--color-ink)]/70">Envío</span>
+                          <span
+                            className={`font-sans font-semibold ${
+                              freeShipping ? "text-[var(--color-orange)]" : "text-[var(--color-coffee)]"
+                            }`}
+                          >
+                            {freeShipping ? "Gratis" : formatPrice(shipping)}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between pt-1.5 border-t border-[var(--color-coffee)]/10">
+                          <span className="font-serif text-sm text-[var(--color-ink)]/70">Total</span>
+                          <span className="font-sans font-extrabold text-2xl text-[var(--color-coffee)]">
+                            {formatPrice(total)}
+                          </span>
+                        </div>
                       </div>
 
                       <button
@@ -205,10 +281,7 @@ export function CartDrawer() {
                         Finalizar compra por WhatsApp
                       </button>
 
-                      <div className="flex items-center justify-between text-xs">
-                        <p className="font-serif italic text-[var(--color-ink)]/60">
-                          El envío se coordina por chat
-                        </p>
+                      <div className="flex items-center justify-end text-xs">
                         <button
                           type="button"
                           onClick={clear}

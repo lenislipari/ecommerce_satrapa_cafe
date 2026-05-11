@@ -53,4 +53,5 @@ export interface CustomerData {
   nombre: string;
   direccion?: string;
   notas?: string;
+  villaCatalina?: boolean;
 }

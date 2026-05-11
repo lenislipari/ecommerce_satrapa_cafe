@@ -1,5 +1,6 @@
 import type { CartItem, CustomerData } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST } from "@/stores/useCartStore";
 
 const WA_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493512041738";
 
@@ -15,6 +16,18 @@ export function buildWhatsAppMessage(
   if (items.length === 0) return "";
 
   const subtotal = items.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
+  const envio = customer.villaCatalina
+    ? 0
+    : subtotal >= FREE_SHIPPING_THRESHOLD
+      ? 0
+      : SHIPPING_COST;
+  const total = subtotal + envio;
+  const envioLabel =
+    envio === 0
+      ? customer.villaCatalina
+        ? "Gratis (Villa Catalina) 🎉"
+        : "Gratis 🎉"
+      : formatPrice(envio);
 
   const lineas = items
     .map((i) => {
@@ -37,7 +50,9 @@ export function buildWhatsAppMessage(
     "📦 PEDIDO:",
     lineas,
     "",
-    `💰 TOTAL: ${formatPrice(subtotal)}`,
+    `Subtotal: ${formatPrice(subtotal)}`,
+    `Envío: ${envioLabel}`,
+    `💰 TOTAL: ${formatPrice(total)}`,
     "",
     datosCliente,
     datosCliente ? "" : null,
