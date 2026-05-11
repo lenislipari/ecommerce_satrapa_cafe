@@ -145,11 +145,6 @@ export default async function ProductPage({
             <span className="font-sans font-extrabold text-4xl text-[var(--color-coffee)]">
               {formatPrice(product.precio)}
             </span>
-            {product.stock > 0 && product.stock < 5 && (
-              <span className="rounded-full bg-[var(--color-orange)] px-3 py-1 text-xs font-semibold text-white">
-                ¡Quedan pocos!
-              </span>
-            )}
           </div>
 
           <CoffeePurchasePanel product={product} />
