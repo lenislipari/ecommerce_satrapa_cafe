@@ -28,14 +28,14 @@ export function CartItem({ item }: CartItemProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: 40 }}
       transition={{ type: "spring", stiffness: 400, damping: 32 }}
-      className="flex gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-paper)] border border-[var(--color-coffee)]/10"
+      className="flex gap-2.5 sm:gap-3 p-2 sm:p-3 rounded-[var(--radius-md)] bg-[var(--color-paper)] border border-[var(--color-coffee)]/10"
     >
       {/* Placeholder visual del producto */}
       <div
-        className="shrink-0 w-16 h-20 rounded-[var(--radius-sm)] bg-[var(--color-coffee)] text-[var(--color-cream)] grid place-items-center p-2"
+        className="shrink-0 w-12 h-14 sm:w-16 sm:h-20 rounded-[var(--radius-sm)] bg-[var(--color-coffee)] text-[var(--color-cream)] grid place-items-center p-1.5 sm:p-2"
         aria-hidden
       >
-        <span className="font-sans font-extrabold text-[10px] leading-tight text-center tracking-tight uppercase line-clamp-3">
+        <span className="font-sans font-extrabold text-[9px] sm:text-[10px] leading-tight text-center tracking-tight uppercase line-clamp-3">
           {item.nombre}
         </span>
       </div>

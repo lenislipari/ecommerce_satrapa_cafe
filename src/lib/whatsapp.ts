@@ -16,7 +16,7 @@ export function buildWhatsAppMessage(
   if (items.length === 0) return "";
 
   const subtotal = items.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
-  const envio = customer.villaCatalina
+  const envio = customer.sierrasChicas
     ? 0
     : subtotal >= FREE_SHIPPING_THRESHOLD
       ? 0
@@ -24,8 +24,8 @@ export function buildWhatsAppMessage(
   const total = subtotal + envio;
   const envioLabel =
     envio === 0
-      ? customer.villaCatalina
-        ? "Gratis (Villa Catalina) 🎉"
+      ? customer.sierrasChicas
+        ? "Gratis (Sierras Chicas) 🎉"
         : "Gratis 🎉"
       : formatPrice(envio);
 

@@ -24,7 +24,7 @@ type CartState = {
   setHasHydrated: (v: boolean) => void;
 };
 
-const INITIAL_CUSTOMER: CustomerData = { nombre: "", direccion: "", notas: "", villaCatalina: false };
+const INITIAL_CUSTOMER: CustomerData = { nombre: "", direccion: "", notas: "", sierrasChicas: false };
 
 function buildItemId(productId: string, molienda?: Molienda): string {
   return molienda ? `${productId}::${molienda}` : productId;
@@ -144,7 +144,7 @@ export const selectSubtotal = (state: CartState) =>
 
 export const selectShipping = (state: CartState) => {
   if (state.items.length === 0) return 0;
-  if (state.customer.villaCatalina) return 0;
+  if (state.customer.sierrasChicas) return 0;
   const subtotal = selectSubtotal(state);
   return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
 };
