@@ -1,11 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Coffee } from "lucide-react";
 import type { Product } from "@/types/product";
-import { useInView } from "@/hooks/useInView";
 import { cn, formatPrice, formatCategoria } from "@/lib/utils";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 
@@ -20,8 +18,6 @@ const CARD_ACCENTS = [
 ];
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { ref, isInView } = useInView();
-
   const accentIndex =
     product.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % CARD_ACCENTS.length;
   const accent = CARD_ACCENTS[accentIndex];
@@ -33,15 +29,11 @@ export function ProductCard({ product }: ProductCardProps) {
     : null;
 
   return (
-    <motion.article
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+    <article
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-[var(--radius-lg)]",
         "bg-[var(--color-paper)] shadow-[var(--shadow-warm-sm)]",
-        "transition-all duration-300 ease-out h-full",
+        "transition-[transform,box-shadow] duration-300 ease-out h-full",
         "hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[var(--shadow-warm-md)]",
         outOfStock && "opacity-60 saturate-50",
       )}
@@ -129,6 +121,6 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
       </Link>
-    </motion.article>
+    </article>
   );
 }
