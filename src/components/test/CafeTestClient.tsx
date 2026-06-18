@@ -102,7 +102,7 @@ export function CafeTestClient({ products }: { products: Product[] }) {
             <h3 className="font-sans font-extrabold text-3xl md:text-4xl text-[var(--color-coffee)] text-center mb-2">
               ¿Cómo te gusta tu café?
             </h3>
-            <p className="font-serif italic text-[var(--color-ink)]/70 text-center mb-10">
+            <p className="font-serif italic text-lg md:text-xl text-[var(--color-ink)]/70 text-center mb-10">
               Elegí la intensidad que más va con vos.
             </p>
 
@@ -129,7 +129,7 @@ export function CafeTestClient({ products }: { products: Product[] }) {
                     <span className="block font-sans font-extrabold text-2xl mb-1">
                       {meta.label}
                     </span>
-                    <span className="block font-serif italic text-sm opacity-85">
+                    <span className="block font-serif italic text-base md:text-lg opacity-85">
                       {meta.description}
                     </span>
                     <ArrowRight className="absolute bottom-5 right-5 w-5 h-5 opacity-50 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
@@ -160,7 +160,7 @@ export function CafeTestClient({ products }: { products: Product[] }) {
             <h3 className="font-sans font-extrabold text-3xl md:text-4xl text-[var(--color-coffee)] text-center mb-2">
               ¿Qué notas te atraen?
             </h3>
-            <p className="font-serif italic text-[var(--color-ink)]/70 text-center mb-10">
+            <p className="font-serif italic text-lg md:text-xl text-[var(--color-ink)]/70 text-center mb-10">
               Elegí el perfil de sabor que más te tiente.
             </p>
 
@@ -175,21 +175,9 @@ export function CafeTestClient({ products }: { products: Product[] }) {
                     "hover:-translate-y-1 hover:shadow-[var(--shadow-warm-md)] hover:border-[var(--color-orange)]",
                   )}
                 >
-                  <span className="block font-sans font-bold text-xl text-[var(--color-coffee)] leading-tight mb-3">
+                  <span className="block font-sans font-bold text-xl text-[var(--color-coffee)] leading-tight">
                     {p.notasCata.join(" y ")}
                   </span>
-                  {p.notasCata.length > 0 && (
-                    <ul className="flex flex-wrap gap-1.5">
-                      {p.notasCata.map((n) => (
-                        <li
-                          key={n}
-                          className="rounded-full bg-[var(--color-cream-soft)] px-2.5 py-0.5 text-[11px] text-[var(--color-coffee)]/70"
-                        >
-                          {n}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                   <ArrowRight className="absolute bottom-5 right-5 w-5 h-5 text-[var(--color-coffee)]/50 transition-all group-hover:text-[var(--color-orange)] group-hover:translate-x-1" />
                 </button>
               ))}
@@ -243,7 +231,7 @@ export function CafeTestClient({ products }: { products: Product[] }) {
                     {selected.notasCata.map((n) => (
                       <li
                         key={n}
-                        className="rounded-full border border-[var(--color-coffee)]/15 px-2.5 py-0.5 text-[11px] text-[var(--color-coffee)]/80"
+                        className="rounded-full border border-[var(--color-coffee)]/15 px-2.5 py-0.5 text-xs text-[var(--color-coffee)]/80"
                       >
                         {n}
                       </li>

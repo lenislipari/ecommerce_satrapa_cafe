@@ -87,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.nombre}
           </p>
 
-          <p className="font-serif italic text-[var(--color-ink)]/80 text-sm leading-snug">
+          <p className="font-serif italic text-[var(--color-ink)]/80 text-base leading-snug">
             {product.descripcionCorta}
           </p>
 
@@ -96,7 +96,7 @@ export function ProductCard({ product }: ProductCardProps) {
               {product.notasCata.map((nota) => (
                 <li
                   key={nota}
-                  className="rounded-full border border-[var(--color-coffee)]/15 px-2.5 py-0.5 text-[11px] text-[var(--color-coffee)]/80"
+                  className="rounded-full border border-[var(--color-coffee)]/15 px-2.5 py-0.5 text-xs text-[var(--color-coffee)]/80"
                 >
                   {nota}
                 </li>

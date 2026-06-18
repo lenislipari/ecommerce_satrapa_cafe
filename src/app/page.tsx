@@ -48,7 +48,7 @@ export default async function HomePage() {
                 </a>
                 <a
                   href="#test"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--color-coffee)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-coffee)] transition-colors hover:bg-[var(--color-coffee)]/5"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-orange)] px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[var(--color-coffee)] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5"
                 >
                   Test café ideal
                 </a>
@@ -168,7 +168,7 @@ export default async function HomePage() {
               </span>
             </h2>
           </div>
-          <p className="font-serif text-[var(--color-ink)]/70 max-w-md">
+          <p className="font-serif text-lg md:text-xl text-[var(--color-ink)]/70 max-w-md">
             Seleccionamos granos de origen y un blend propio, tostados en tanda corta
             para que cada taza sea una pausa de verdad.
           </p>

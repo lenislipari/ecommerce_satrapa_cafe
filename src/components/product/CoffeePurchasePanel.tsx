@@ -39,7 +39,7 @@ export function CoffeePurchasePanel({ product }: CoffeePurchasePanelProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-sienna)]">
             Molienda
           </p>
-          <p className="font-serif italic text-xs text-[var(--color-ink)]/60">
+          <p className="font-serif italic text-base md:text-lg text-[var(--color-orange)]">
             {MOLIENDA_HINTS[molienda]}
           </p>
         </div>

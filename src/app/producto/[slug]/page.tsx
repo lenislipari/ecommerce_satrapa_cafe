@@ -162,7 +162,7 @@ export default async function ProductPage({
                     <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-sienna)]">
                       Origen
                     </p>
-                    <p className="font-serif text-sm text-[var(--color-ink)]/80">
+                    <p className="font-serif text-base text-[var(--color-ink)]/80">
                       {product.origen}
                     </p>
                   </div>
@@ -176,7 +176,7 @@ export default async function ProductPage({
                     <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-sienna)]">
                       Notas de cata
                     </p>
-                    <p className="font-serif text-sm text-[var(--color-ink)]/80">
+                    <p className="font-serif text-base text-[var(--color-ink)]/80">
                       {product.notasCata.join(" · ")}
                     </p>
                   </div>

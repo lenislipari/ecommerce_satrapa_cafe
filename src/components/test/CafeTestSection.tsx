@@ -21,7 +21,7 @@ export async function CafeTestSection() {
               café ideal
             </span>
           </h2>
-          <p className="font-serif text-[var(--color-ink)]/70 max-w-md mx-auto mt-4">
+          <p className="font-serif text-lg md:text-xl text-[var(--color-ink)]/70 max-w-md mx-auto mt-4">
             Dos preguntas rápidas y te recomendamos el Sátrapa perfecto para tu paladar.
           </p>
         </div>
