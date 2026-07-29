@@ -41,13 +41,21 @@ export async function generateMetadata({
     ? cloudinaryUrl(product.imagenPrincipal, { width: 1200, height: 630, crop: "fill" })
     : undefined;
 
+  const path = `/producto/${slug}`;
+
   return {
     title: product.nombre,
     description: product.descripcionCorta,
+    alternates: {
+      canonical: path,
+    },
     openGraph: {
       title: `${product.nombre} · Sátrapa Café`,
       description: product.descripcionCorta,
       type: "website",
+      url: path,
+      siteName: "Sátrapa Café",
+      locale: "es_AR",
       ...(ogImage && { images: [{ url: ogImage, width: 1200, height: 630 }] }),
     },
   };

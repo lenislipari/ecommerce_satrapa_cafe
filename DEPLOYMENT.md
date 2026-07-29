@@ -13,7 +13,11 @@ Antes de desplegar, asegúrate de que:
   - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
   - `NEXT_PUBLIC_WHATSAPP_NUMBER`
   - `REVALIDATE_SECRET` (generado con `openssl rand -hex 32`)
-  - `NEXT_PUBLIC_SITE_URL`
+
+  > `NEXT_PUBLIC_SITE_URL` ya no se usa. El dominio para metadata y sitemap está
+  > fijo en `src/lib/site.ts`. Si la variable sigue cargada en Vercel, borrala:
+  > apuntaba a la URL de Vercel y por eso el sitemap y el canonical salían con
+  > `*.vercel.app`.
 
 - [ ] Google Sheets está compartido con la Service Account
 - [ ] Google Apps Script está instalado en el Sheet con trigger `onEdit`
@@ -52,7 +56,6 @@ vercel env add GOOGLE_SA_KEY
 vercel env add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 vercel env add NEXT_PUBLIC_WHATSAPP_NUMBER
 vercel env add REVALIDATE_SECRET
-vercel env add NEXT_PUBLIC_SITE_URL
 ```
 
 Pega los valores desde tu `.env.local` (excepto las variables que empiezan con `NEXT_PUBLIC_`, que Vercel detecta automáticamente).
@@ -91,7 +94,6 @@ git push -u origin main
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Tu Cloud Name |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Tu número de WhatsApp |
 | `REVALIDATE_SECRET` | Token aleatorio seguro |
-| `NEXT_PUBLIC_SITE_URL` | https://satrapacafe.com (actualizar después) |
 
 6. Haz clic en **"Deploy"**
 7. Espera a que Vercel construya y despliegue
@@ -130,15 +132,15 @@ dig satrapacafe.com
 
 ## Actualizar variables en producción
 
-Si necesitas cambiar `NEXT_PUBLIC_SITE_URL` después de configurar el dominio:
+El dominio del sitio **no** es una variable de entorno: está fijo en `src/lib/site.ts`.
+Si `NEXT_PUBLIC_SITE_URL` quedó cargada de antes, conviene borrarla para que nadie la
+vuelva a usar creyendo que controla el dominio:
 
 ```bash
 vercel env rm NEXT_PUBLIC_SITE_URL production
-vercel env add NEXT_PUBLIC_SITE_URL production
-# Escribe el nuevo valor: https://satrapacafe.com
 ```
 
-Luego redeploya:
+Para cualquier otra variable, después de cambiarla hay que redeployar:
 ```bash
 vercel --prod
 ```
@@ -156,6 +158,36 @@ Una vez deployado:
    - Verifica `/sitemap.xml` (debe listar todos los productos)
    - Verifica `/robots.txt`
    - Revisa Open Graph: comparte el sitio en redes sociales
+   - Verifica el canonical: en el HTML de `/` y de un producto debe aparecer
+     `<link rel="canonical" href="https://satrapacafe.com/...">`
+   - Verifica el 301 desde Vercel:
+     ```bash
+     curl -sI https://satrapa-cafe.vercel.app/producto/carioca | grep -i "^HTTP\|^location"
+     # HTTP/2 301
+     # location: https://satrapacafe.com/producto/carioca
+     ```
+
+## Dominio canónico y redirección desde *.vercel.app
+
+Para que Google indexe solo `satrapacafe.com` y no la URL de Vercel hay dos piezas:
+
+1. **Canonical** — `src/lib/site.ts` fija el dominio (`SITE_URL`) y cada ruta declara su
+   propio `alternates.canonical`. Está hardcodeado a propósito: si saliera de
+   `NEXT_PUBLIC_SITE_URL`, un deploy en `*.vercel.app` se declararía a sí mismo como
+   original.
+2. **Redirección 301** — `vercel.json` redirige con status 301 cualquier request cuyo
+   host termine en `.vercel.app` hacia `https://satrapacafe.com`, conservando el path.
+
+Dos detalles del `vercel.json`:
+
+- **`/api/*` queda excluido** del redirect. El webhook `POST /api/revalidate` (Apps Script)
+  seguiría funcionando aunque `REVALIDATE_URL` apunte al dominio de Vercel; un 301 sobre un
+  POST puede convertirlo en GET y romperlo.
+- **Los preview deployments también redirigen**, porque usan `*.vercel.app`. Si necesitás
+  probar una rama en su URL de preview, acotá el `value` del `has` al host de producción
+  (ej. `satrapa-cafe\\.vercel\\.app`) en vez del comodín.
+
+`vercel dev` no evalúa las condiciones `has`, así que el desarrollo local no se ve afectado.
 
 ## Rollback rápido
 

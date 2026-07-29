@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
@@ -7,6 +8,12 @@ import { ProductCardSkeleton } from "@/components/product/ProductCardSkeleton";
 import { CafeTestSection } from "@/components/test/CafeTestSection";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493512041738";
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "satrapacafe@gmail.com";

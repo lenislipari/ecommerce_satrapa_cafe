@@ -8,6 +8,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { ToastContainer } from "@/components/toast/Toast";
 import { WhatsAppFAB } from "@/components/layout/WhatsAppFAB";
 import { MetaPixelTracker } from "@/components/analytics/MetaPixel";
+import { SITE_URL } from "@/lib/site";
 
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
@@ -27,7 +28,7 @@ const garamond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://satrapacafe.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Sátrapa Café — Celebrar lo cotidiano",
     template: "%s · Sátrapa Café",
@@ -58,9 +59,10 @@ export const metadata: Metadata = {
     title: "Sátrapa Café",
     description: "Café de especialidad de Sierras Chicas",
   },
-  alternates: {
-    canonical: "/",
-  },
+  // Ojo: no se define `alternates.canonical` acá. La metadata se hereda hacia
+  // abajo, así que un canonical en el layout haría que toda página que no lo
+  // sobrescriba (ej. /producto/*) se declarara como copia del home. Cada ruta
+  // declara el suyo.
 };
 
 export default function RootLayout({
