@@ -11,7 +11,7 @@
  *   1. Extensiones → Apps Script
  *   2. Pegá este código en Code.gs
  *   3. Project Settings → Script Properties → agregar:
- *        - REVALIDATE_URL  = https://satrapacafe.com/api/revalidate
+ *        - REVALIDATE_URL  = https://www.satrapacafe.com/api/revalidate
  *        - REVALIDATE_SECRET = (mismo valor que en Vercel)
  *   4. Guardá y cerrá
  *

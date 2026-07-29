@@ -159,24 +159,39 @@ Una vez deployado:
    - Verifica `/robots.txt`
    - Revisa Open Graph: comparte el sitio en redes sociales
    - Verifica el canonical: en el HTML de `/` y de un producto debe aparecer
-     `<link rel="canonical" href="https://satrapacafe.com/...">`
+     `<link rel="canonical" href="https://www.satrapacafe.com/...">`
    - Verifica el 301 desde Vercel:
      ```bash
-     curl -sI https://satrapa-cafe.vercel.app/producto/carioca | grep -i "^HTTP\|^location"
-     # HTTP/2 301
-     # location: https://satrapacafe.com/producto/carioca
+     curl -sI https://ecommerce-satrapa-cafe.vercel.app/producto/carioca | grep -i "^HTTP\|^location"
+     # HTTP/1.1 301 Moved Permanently
+     # Location: https://www.satrapacafe.com/producto/carioca
+     ```
+   - Verifica que el dominio final responde 200 y no redirige:
+     ```bash
+     curl -sI https://www.satrapacafe.com/ | grep -i "^HTTP"
+     # HTTP/1.1 200 OK
      ```
 
 ## Dominio canónico y redirección desde *.vercel.app
 
-Para que Google indexe solo `satrapacafe.com` y no la URL de Vercel hay dos piezas:
+El dominio definitivo es **`https://www.satrapacafe.com`** (con www). En Vercel,
+`www.satrapacafe.com` es el dominio principal y el apex `satrapacafe.com` redirige hacia
+él (Settings → Domains). Los dos siguen activos: quien escriba cualquiera de los dos llega
+al sitio.
+
+**Si alguna vez se invierte esa configuración en el panel de Vercel, hay que cambiar
+`SITE_URL` en `src/lib/site.ts` y el `Sitemap:` de `public/robots.txt` en el mismo
+momento.** Si no, los canonical y las URLs del sitemap apuntan a direcciones que
+redirigen, y Google descarta lo declarado y elige el destino por su cuenta.
+
+Para que Google indexe solo el dominio propio y no la URL de Vercel hay dos piezas:
 
 1. **Canonical** — `src/lib/site.ts` fija el dominio (`SITE_URL`) y cada ruta declara su
    propio `alternates.canonical`. Está hardcodeado a propósito: si saliera de
    `NEXT_PUBLIC_SITE_URL`, un deploy en `*.vercel.app` se declararía a sí mismo como
    original.
 2. **Redirección 301** — `vercel.json` redirige con status 301 cualquier request cuyo
-   host termine en `.vercel.app` hacia `https://satrapacafe.com`, conservando el path.
+   host termine en `.vercel.app` hacia `https://www.satrapacafe.com`, conservando el path.
 
 Dos detalles del `vercel.json`:
 

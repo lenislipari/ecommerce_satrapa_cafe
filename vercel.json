@@ -9,7 +9,7 @@
           "value": "(.+\\.)?vercel\\.app"
         }
       ],
-      "destination": "https://satrapacafe.com/:path*",
+      "destination": "https://www.satrapacafe.com/:path*",
       "statusCode": 301
     }
   ]

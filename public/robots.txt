@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://satrapacafe.com/sitemap.xml
+Sitemap: https://www.satrapacafe.com/sitemap.xml
