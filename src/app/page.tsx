@@ -115,7 +115,7 @@ export default async function HomePage() {
             El costado sátrapa
           </p>
           <h2 className="font-sans text-3xl md:text-5xl font-extrabold leading-tight text-[var(--color-cream)]">
-            Con azúcar o sin azúcar.
+            Como te guste, a tu manera.
             <br />
             <span className="font-serif italic font-normal text-[var(--color-orange)]">
               lo importante es disfrutarlo.
